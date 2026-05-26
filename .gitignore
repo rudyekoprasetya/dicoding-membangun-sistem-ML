@@ -1,0 +1,15 @@
+#disable python .venv
+.venv/
+#disable pycache
+__pycache__/
+#disable vscode settings
+.vscode/
+#disable pycharm settings
+.idea/
+#disable env files
+.env
+#disable log files
+*.log
+
+#disable .qodo
+.qodo/
