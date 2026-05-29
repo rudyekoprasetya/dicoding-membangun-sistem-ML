@@ -57,3 +57,21 @@ for k in range(1, 31):
         if no_improve_count >= early_stop_patience:
             print(f"Early stopping di k={k} (tidak ada peningkatan selama {early_stop_patience} iterasi)")
             break
+
+print(f"\nBest k: {best_k} dengan CV accuracy: {best_accuracy:.6f}")
+
+best_knn = KNeighborsClassifier(n_neighbors=best_k)
+best_knn.fit(X_train, y_train)
+
+y_pred = best_knn.predict(X_test)
+test_acc = accuracy_score(y_test, y_pred)
+print(f"Test accuracy dengan k={best_k}: {test_acc:.6f}")
+
+with mlflow.start_run(run_name="Best_KNN_Final"):
+    mlflow.log_param("n_neighbors", best_k)
+    mlflow.log_metric("cv_accuracy", best_accuracy)
+    mlflow.log_metric("test_accuracy", test_acc)
+    mlflow.sklearn.log_model(best_knn, "knn_model")
+
+print("\nHasil tuning:")
+print(pd.DataFrame(results).to_string(index=False))
