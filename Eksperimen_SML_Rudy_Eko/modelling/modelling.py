@@ -10,38 +10,16 @@ from sklearn.model_selection import train_test_split, cross_val_score, KFold
 from sklearn.metrics import accuracy_score, confusion_matrix, ConfusionMatrixDisplay
 import mlflow
 import mlflow.sklearn
-import subprocess, sys, time, requests, os, signal
+import subprocess, sys, os
 import warnings
 warnings.filterwarnings('ignore')
+sys.stdout.reconfigure(encoding='utf-8')
 
 # ============================================================
-# FASE 1: Auto-start MLflow tracking server
+# FASE 1: Setup MLflow tracking (local file-based)
 # ============================================================
-MLFLOW_PORT = 5000
-MLFLOW_URI = f"http://127.0.0.1:{MLFLOW_PORT}"
-mlflow_process = None
-
-try:
-    requests.get(f"{MLFLOW_URI}/health", timeout=2)
-    print(f"MLflow server sudah berjalan di {MLFLOW_URI}")
-except requests.exceptions.ConnectionError:
-    print("Memulai MLflow server...")
-    mlflow_process = subprocess.Popen(
-        [sys.executable, "-m", "mlflow", "server", "--host", "127.0.0.1", "--port", str(MLFLOW_PORT)],
-        stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL
-    )
-    for _ in range(30):
-        time.sleep(1)
-        try:
-            requests.get(f"{MLFLOW_URI}/", timeout=2)
-            print("MLflow server siap.")
-            break
-        except requests.exceptions.ConnectionError:
-            continue
-    else:
-        print("Gagal menjalankan MLflow server. Cek port 5000.")
-
-mlflow.set_tracking_uri(MLFLOW_URI)
+# Data tracking disimpan di folder mlruns/
+# Untuk melihat UI: jalankan "mlflow ui --port 5000" di terminal terpisah
 mlflow.set_experiment("KDD Cyber Attack Classify")
 
 # ============================================================
@@ -75,7 +53,7 @@ print("\nTuning KNN dengan cross-validation 10-fold...")
 for k in range(1, 31):
     with mlflow.start_run(run_name=f"KNN_k{k}"):
         knn = KNeighborsClassifier(n_neighbors=k)
-        scores = cross_val_score(knn, X_train, y_train, cv=cv, scoring='accuracy')
+        scores = cross_val_score(knn, X_train, y_train, cv=cv, scoring='accuracy', n_jobs=-1)
         mean_acc = scores.mean()
         std_acc = scores.std()
 
@@ -157,8 +135,7 @@ subprocess.run([sys.executable, "-m", "pip", "freeze"], stdout=open(os.path.join
 print("requirements.txt generated via pip freeze")
 
 # ============================================================
-# FASE 9: Matikan MLflow server jika dijalankan oleh script ini
+# FASE 9: Selesai
 # ============================================================
-if mlflow_process:
-    mlflow_process.terminate()
-    print("MLflow server dihentikan.")
+print("\nSemua fase selesai. Untuk melihat MLflow UI, jalankan:")
+print("  mlflow ui --port 5000")
