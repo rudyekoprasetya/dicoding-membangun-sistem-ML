@@ -47,7 +47,8 @@ mlflow.set_experiment("KDD Cyber Attack Classify")
 # ============================================================
 # FASE 2: Load dataset dan splitting (80% train, 20% test)
 # ============================================================
-df = pd.read_csv('preprocessed_kdd.csv')
+script_dir = os.path.dirname(os.path.abspath(__file__))
+df = pd.read_csv(os.path.join(script_dir, 'preprocessed_kdd.csv'))
 
 X = df.drop('outcome', axis=1)
 y = df['outcome']
@@ -137,14 +138,14 @@ plt.xlabel('k (jumlah tetangga)')
 plt.ylabel('Rata-rata CV Accuracy')
 plt.legend()
 plt.grid(True)
-plt.savefig('plot_accuracy_vs_k.png')
+plt.savefig(os.path.join(script_dir, 'plot_accuracy_vs_k.png'))
 plt.show()
 
 cm = confusion_matrix(y_test, y_pred)
 disp = ConfusionMatrixDisplay(confusion_matrix=cm, display_labels=['Normal', 'Attack'])
 disp.plot(cmap='Blues')
 plt.title('Confusion Matrix - Test Set')
-plt.savefig('plot_confusion_matrix.png')
+plt.savefig(os.path.join(script_dir, 'plot_confusion_matrix.png'))
 plt.show()
 
 print("Visualisasi performa disimpan: plot_accuracy_vs_k.png, plot_confusion_matrix.png")
@@ -152,7 +153,7 @@ print("Visualisasi performa disimpan: plot_accuracy_vs_k.png, plot_confusion_mat
 # ============================================================
 # FASE 8: Export requirements.txt via pip freeze
 # ============================================================
-subprocess.run([sys.executable, "-m", "pip", "freeze"], stdout=open("requirements.txt", "w"))
+subprocess.run([sys.executable, "-m", "pip", "freeze"], stdout=open(os.path.join(script_dir, "requirements.txt"), "w"))
 print("requirements.txt generated via pip freeze")
 
 # ============================================================
