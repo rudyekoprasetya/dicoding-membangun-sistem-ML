@@ -75,3 +75,15 @@ with mlflow.start_run(run_name="Best_KNN_Final"):
 
 print("\nHasil tuning:")
 print(pd.DataFrame(results).to_string(index=False))
+
+req = [
+    "numpy",
+    "pandas",
+    "matplotlib",
+    "seaborn",
+    "scikit-learn",
+    "mlflow",
+]
+with open("requirements.txt", "w") as f:
+    f.write("\n".join(req))
+print("\nrequirements.txt generated")
