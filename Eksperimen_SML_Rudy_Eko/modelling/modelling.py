@@ -76,14 +76,6 @@ with mlflow.start_run(run_name="Best_KNN_Final"):
 print("\nHasil tuning:")
 print(pd.DataFrame(results).to_string(index=False))
 
-req = [
-    "numpy",
-    "pandas",
-    "matplotlib",
-    "seaborn",
-    "scikit-learn",
-    "mlflow",
-]
-with open("requirements.txt", "w") as f:
-    f.write("\n".join(req))
-print("\nrequirements.txt generated")
+import subprocess, sys
+subprocess.run([sys.executable, "-m", "pip", "freeze"], stdout=open("requirements.txt", "w"))
+print("\nrequirements.txt generated via pip freeze")
