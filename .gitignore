@@ -13,3 +13,10 @@ __pycache__/
 
 #disable .qodo
 .qodo/
+
+# disable folder mlruns
+Eksperimen_SML_Rudy_Eko/mlruns/
+mlflow/mlruns/
+mlruns/
+home/
+
