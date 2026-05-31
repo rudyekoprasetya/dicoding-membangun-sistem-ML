@@ -36,10 +36,3 @@ jobs:
           echo "MLFLOW_RUN_ID=$RUN_ID" >> $GITHUB_ENV
           echo "Latest run_id: $RUN_ID"
 
-      - name: Commit mlruns
-        run: |
-          git config user.name ${{ secrets.username }}
-          git config user.email ${{ secrets.email }}
-          git add Eksperimen_SML_Rudy_Eko/Workflow-CI/MLproject/mlruns/
-          git diff --staged --quiet || git commit -m "Save mlruns from CI run"
-          git push
