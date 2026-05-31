@@ -1,0 +1,11 @@
+name: KDD Cyber Attack Classify - Tuning
+conda_env: conda.yaml
+
+env:
+  CSV_URL: "preprocessed_kdd.csv"
+
+entry_points:
+  main:
+    parameters:
+      var_smoothing: {type: float, default: 4.354313899755664e-12}
+    command: python modelling.py
