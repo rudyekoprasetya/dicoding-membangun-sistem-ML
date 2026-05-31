@@ -31,7 +31,7 @@ jobs:
 
       - name: Get latest MLflow run_id
         run: |
-          RUN_ID=$(ls -t mlruns/*/*/meta.yaml 2>/dev/null | head -1 | xargs dirname | xargs basename)
+          RUN_ID=$(ls -t Eksperimen_SML_Rudy_Eko/Workflow-CI/MLproject/mlruns/*/*/meta.yaml 2>/dev/null | head -1 | xargs dirname | xargs basename)
           echo "MLFLOW_RUN_ID=$RUN_ID" >> $GITHUB_ENV
           echo "Latest run_id: $RUN_ID"
 
@@ -39,6 +39,6 @@ jobs:
         run: |
           git config user.name ${{ secrets.username }}
           git config user.email ${{ secrets.email }}
-          git add mlruns/
+          git add Eksperimen_SML_Rudy_Eko/Workflow-CI/MLproject/mlruns/
           git diff --staged --quiet || git commit -m "Save mlruns from CI run"
           git push
