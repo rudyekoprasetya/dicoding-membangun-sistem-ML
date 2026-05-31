@@ -2,7 +2,7 @@ name: KDD Cyber Attack Classify - Tuning
 conda_env: conda.yaml
 
 env:
-  CSV_URL: "preprocessed_kdd.csv"
+  CSV_URL: "MLproject/preprocessed_kdd.csv"
 
 entry_points:
   main:

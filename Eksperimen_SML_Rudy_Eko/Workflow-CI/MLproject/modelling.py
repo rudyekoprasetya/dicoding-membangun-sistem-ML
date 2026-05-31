@@ -18,7 +18,6 @@ warnings.filterwarnings('ignore')
 sys.stdout.reconfigure(encoding='utf-8')
 
 script_dir = os.path.dirname(os.path.abspath(__file__))
-mlflow.sklearn.autolog()
 
 csv_url = os.environ.get("CSV_URL", "preprocessed_kdd.csv")
 csv_path = os.path.normpath(os.path.join(script_dir, csv_url)) if not os.path.isabs(csv_url) else csv_url
