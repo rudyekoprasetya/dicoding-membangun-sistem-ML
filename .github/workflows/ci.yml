@@ -30,6 +30,7 @@ jobs:
         run: mlflow run MLproject --env-manager=local --experiment-name "KDD Cyber Attack Classify - Tuning"
 
       - name: Get latest MLflow run_id
+        continue-on-error: true
         run: |
           RUN_ID=$(ls -t Eksperimen_SML_Rudy_Eko/Workflow-CI/MLproject/mlruns/*/*/meta.yaml 2>/dev/null | head -1 | xargs dirname | xargs basename)
           echo "MLFLOW_RUN_ID=$RUN_ID" >> $GITHUB_ENV
