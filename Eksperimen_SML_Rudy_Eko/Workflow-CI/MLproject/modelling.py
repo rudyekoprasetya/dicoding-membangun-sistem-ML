@@ -25,10 +25,8 @@ csv_path = os.path.normpath(os.path.join(script_dir, csv_url)) if not os.path.is
 with open(csv_path, 'rb') as f:
     dataset_hash = hashlib.md5(f.read()).hexdigest()
 
-mlflow.set_experiment("KDD Cyber Attack Classify - Tuning")
-with mlflow.start_run(run_name="Dataset_Info"):
-    mlflow.log_param("dataset_source", os.path.basename(csv_path))
-    mlflow.log_param("dataset_hash", dataset_hash)
+mlflow.log_param("dataset_source", os.path.basename(csv_path))
+mlflow.log_param("dataset_hash", dataset_hash)
 
 df = pd.read_csv(csv_path)
 
@@ -48,19 +46,18 @@ print(f"Total samples: {n_samples_total}")
 print(f"Train size: {train_size} rows")
 print(f"Test size: {test_size} rows")
 
-with mlflow.start_run():
-    mlflow.log_param("n_samples_total", n_samples_total)
-    mlflow.log_param("n_features", n_features)
-    mlflow.log_param("train_size", train_size)
-    mlflow.log_param("test_size", test_size)
-    mlflow.log_artifact(csv_path)
+mlflow.log_param("n_samples_total", n_samples_total)
+mlflow.log_param("n_features", n_features)
+mlflow.log_param("train_size", train_size)
+mlflow.log_param("test_size", test_size)
+mlflow.log_artifact(csv_path)
 
-    train_df = pd.concat([X_train, y_train], axis=1)
-    test_df = pd.concat([X_test, y_test], axis=1)
-    train_dataset = mlflow.data.from_pandas(train_df, source=csv_path, name="kdd_train", targets="outcome")
-    test_dataset = mlflow.data.from_pandas(test_df, source=csv_path, name="kdd_test", targets="outcome")
-    mlflow.log_input(train_dataset, context="training")
-    mlflow.log_input(test_dataset, context="test")
+train_df = pd.concat([X_train, y_train], axis=1)
+test_df = pd.concat([X_test, y_test], axis=1)
+train_dataset = mlflow.data.from_pandas(train_df, source=csv_path, name="kdd_train", targets="outcome")
+test_dataset = mlflow.data.from_pandas(test_df, source=csv_path, name="kdd_test", targets="outcome")
+mlflow.log_input(train_dataset, context="training")
+mlflow.log_input(test_dataset, context="test")
 
 print("\nRandomizedSearchCV — GaussianNB...")
 
@@ -80,31 +77,30 @@ random_search = RandomizedSearchCV(
     verbose=1
 )
 
-with mlflow.start_run(run_name="RandomizedSearch_GNB"):
-    mlflow.log_param("n_iter", n_iter)
-    mlflow.log_param("cv_folds", cv)
-    mlflow.log_param("scoring", "accuracy")
-    mlflow.log_param("search_type", "RandomizedSearchCV")
-    mlflow.log_param("param_distribution", str(param_dist))
+mlflow.log_param("n_iter", n_iter)
+mlflow.log_param("cv_folds", cv)
+mlflow.log_param("scoring", "accuracy")
+mlflow.log_param("search_type", "RandomizedSearchCV")
+mlflow.log_param("param_distribution", str(param_dist))
 
-    random_search.fit(X_train, y_train)
+random_search.fit(X_train, y_train)
 
-    best_gnb = random_search.best_estimator_
-    best_params = random_search.best_params_
-    best_cv_score = random_search.best_score_
+best_gnb = random_search.best_estimator_
+best_params = random_search.best_params_
+best_cv_score = random_search.best_score_
 
-    print(f"Best params: {best_params}")
-    print(f"Best CV accuracy: {best_cv_score:.6f}")
+print(f"Best params: {best_params}")
+print(f"Best CV accuracy: {best_cv_score:.6f}")
 
-    mlflow.log_params({f"best_{k}": v for k, v in best_params.items()})
-    mlflow.log_metric("best_cv_accuracy", best_cv_score)
+mlflow.log_params({f"best_{k}": v for k, v in best_params.items()})
+mlflow.log_metric("best_cv_accuracy", best_cv_score)
 
-    for i in range(len(random_search.cv_results_['params'])):
-        params = random_search.cv_results_['params'][i]
-        mean_score = random_search.cv_results_['mean_test_score'][i]
-        with mlflow.start_run(run_name=f"GNB_iter_{i+1}", nested=True):
-            mlflow.log_params(params)
-            mlflow.log_metric("cv_mean_test_score", mean_score)
+for i in range(len(random_search.cv_results_['params'])):
+    params = random_search.cv_results_['params'][i]
+    mean_score = random_search.cv_results_['mean_test_score'][i]
+    with mlflow.start_run(run_name=f"GNB_iter_{i+1}", nested=True):
+        mlflow.log_params(params)
+        mlflow.log_metric("cv_mean_test_score", mean_score)
 
 print("\nEvaluasi best model di test set...")
 
@@ -135,12 +131,11 @@ model_path = os.path.join(script_dir, 'best_gnb.pkl')
 with open(model_path, 'wb') as f:
     pickle.dump(best_gnb, f)
 
-with mlflow.start_run(run_name="Best_Model_Evaluation"):
-    mlflow.log_params(best_params)
-    mlflow.log_metric("test_accuracy", test_acc)
-    mlflow.log_metric("best_cv_accuracy", best_cv_score)
-    mlflow.log_artifact(cm_path)
-    mlflow.log_artifact(model_path)
-    mlflow.sklearn.log_model(best_gnb, "best_gnb_model")
+mlflow.log_params(best_params)
+mlflow.log_metric("test_accuracy", test_acc)
+mlflow.log_metric("best_cv_accuracy", best_cv_score)
+mlflow.log_artifact(cm_path)
+mlflow.log_artifact(model_path)
+mlflow.sklearn.log_model(best_gnb, "best_gnb_model")
 
 print("\nSemua fase selesai.")

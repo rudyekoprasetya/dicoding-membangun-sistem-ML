@@ -27,7 +27,7 @@ jobs:
 
       - name: Run MLflow project
         working-directory: Eksperimen_SML_Rudy_Eko/Workflow-CI
-        run: mlflow run MLproject --env-manager=local
+        run: mlflow run MLproject --env-manager=local --experiment-name "KDD Cyber Attack Classify - Tuning"
 
       - name: Get latest MLflow run_id
         run: |
