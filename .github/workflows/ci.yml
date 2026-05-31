@@ -13,7 +13,7 @@ jobs:
         run: pip install -r requirements.txt
       - name: Train model
         working-directory: Eksperimen_SML_Rudy_Eko/Workflow-CI
-        run: mlflow run MLproject --env-manager=local
+        run: mlflow run . --env-manager=local
       - name: Commit mlruns
         run: |
           git config user.name ${{ secrets.username }}
