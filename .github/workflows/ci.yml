@@ -9,7 +9,7 @@ on:
       - Main
 
 env:
-  CSV_URL: "MLproject/preprocessed_kdd.csv"
+  CSV_URL: "preprocessed_kdd.csv"
 
 jobs:
   build:
