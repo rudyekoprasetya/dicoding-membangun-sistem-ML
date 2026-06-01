@@ -10,6 +10,7 @@ on:
 
 env:
   CSV_URL: "preprocessed_kdd.csv"
+  MLFLOW_TRACKING_URI: ${{ github.workspace }}/mlruns
 
 jobs:
   build:
@@ -38,14 +39,12 @@ jobs:
 
       - name: Get latest MLflow run_id
         run: |
-          RUN_ID=$(ls -td Eksperimen_SML_Rudy_Eko/Workflow-CI/mlruns/*/*/ | head -n 1 | xargs basename)
+          RUN_ID=$(ls -td ${{ github.workspace }}/mlruns/*/*/ | head -n 1 | xargs basename)
           echo "RUN_ID=$RUN_ID" >> $GITHUB_ENV
           echo "Latest run_id: $RUN_ID"
 
       - name: Build Docker Model
         if: env.RUN_ID != 'none'
-        env:
-          MLFLOW_TRACKING_URI: ${{ github.workspace }}/Eksperimen_SML_Rudy_Eko/Workflow-CI/mlruns
         run: |
           mlflow models build-docker \
             --model-uri "runs:/${{ env.RUN_ID }}/best_gnb_model" \
