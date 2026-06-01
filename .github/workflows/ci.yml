@@ -3,10 +3,10 @@ name: CI/CD MLflow
 on:
   push:
     branches:
-      - main
+      - Main
   pull_request:
     branches:
-      - main
+      - Main
 
 env:
   CSV_URL: "MLproject/preprocessed_kdd.csv"
