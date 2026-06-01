@@ -38,30 +38,9 @@ jobs:
 
       - name: Get latest MLflow run_id
         run: |
-          python -c "
-import mlflow, os
-mlflow.set_tracking_uri('${{ github.workspace }}/Eksperimen_SML_Rudy_Eko/Workflow-CI/mlruns')
-exp = mlflow.get_experiment_by_name('KDD Cyber Attack Classify - Tuning')
-if exp:
-    runs = mlflow.search_runs(
-        experiment_ids=[exp.experiment_id],
-        order_by=['start_time DESC'],
-        max_results=1
-    )
-    if not runs.empty:
-        run_id = runs.iloc[0].run_id
-        print(f'Latest run_id: {run_id}')
-        with open(os.environ['GITHUB_ENV'], 'a') as f:
-            f.write(f'RUN_ID={run_id}\n')
-    else:
-        print('No runs found - setting dummy')
-        with open(os.environ['GITHUB_ENV'], 'a') as f:
-            f.write('RUN_ID=none\n')
-else:
-    print('Experiment not found - setting dummy')
-    with open(os.environ['GITHUB_ENV'], 'a') as f:
-        f.write('RUN_ID=none\n')
-"
+          RUN_ID=$(ls -td Eksperimen_SML_Rudy_Eko/Workflow-CI/mlruns/*/*/ | head -n 1 | xargs basename)
+          echo "RUN_ID=$RUN_ID" >> $GITHUB_ENV
+          echo "Latest run_id: $RUN_ID"
 
       - name: Build Docker Model
         if: env.RUN_ID != 'none'
