@@ -1,0 +1,141 @@
+apiVersion: 1
+groups:
+  - name: Dicoding-rudyekoprasetya
+    orgId: 1
+    folder: Submission SML
+    interval: 30s
+    rules:
+      - uid: model_down
+        title: "Model Service Down"
+        condition: A
+        data:
+          - refId: A
+            relativeTimeRange:
+              from: 600
+              to: 0
+            datasourceUid: prometheus
+            model:
+              expr: "model_health"
+              interval: ""
+              intervalMs: 15000
+              maxDataPoints: 100
+              refId: A
+              format: "time_series"
+              legendFormat: ""
+              hide: false
+            queryType: ""
+        noDataState: Alerting
+        execErrState: Error
+        for: 30s
+        annotations:
+          summary: "Model service has been unreachable for 30 seconds"
+        labels:
+          severity: critical
+
+      - uid: prediction_mismatch
+        title: "Prediction Mismatch"
+        condition: A
+        data:
+          - refId: A
+            relativeTimeRange:
+              from: 600
+              to: 0
+            datasourceUid: prometheus
+            model:
+              expr: "prediction_correct < 1"
+              interval: ""
+              intervalMs: 15000
+              maxDataPoints: 100
+              refId: A
+              format: "time_series"
+              legendFormat: ""
+              hide: false
+            queryType: ""
+        noDataState: OK
+        execErrState: Error
+        for: 30s
+        annotations:
+          summary: "Model prediction does not match expected ground truth on known sample"
+        labels:
+          severity: warning
+
+      - uid: high_cpu
+        title: "High CPU Usage"
+        condition: A
+        data:
+          - refId: A
+            relativeTimeRange:
+              from: 600
+              to: 0
+            datasourceUid: prometheus
+            model:
+              expr: 'rate(container_cpu_usage_seconds_total{container_label_com_docker_compose_service="mlflow-app"}[2m]) > 0.8'
+              interval: ""
+              intervalMs: 15000
+              maxDataPoints: 100
+              refId: A
+              format: "time_series"
+              legendFormat: ""
+              hide: false
+            queryType: ""
+        noDataState: OK
+        execErrState: Error
+        for: 2m
+        annotations:
+          summary: "MLflow container CPU usage above 80% for 2 minutes"
+        labels:
+          severity: warning
+
+      - uid: high_memory
+        title: "High Memory Usage"
+        condition: A
+        data:
+          - refId: A
+            relativeTimeRange:
+              from: 600
+              to: 0
+            datasourceUid: prometheus
+            model:
+              expr: 'container_memory_usage_bytes{container_label_com_docker_compose_service="mlflow-app"} > 500000000'
+              interval: ""
+              intervalMs: 15000
+              maxDataPoints: 100
+              refId: A
+              format: "time_series"
+              legendFormat: ""
+              hide: false
+            queryType: ""
+        noDataState: OK
+        execErrState: Error
+        for: 2m
+        annotations:
+          summary: "MLflow container memory usage above 500 MB for 2 minutes"
+        labels:
+          severity: warning
+
+      - uid: probe_stalled
+        title: "Probe Stalled — No Data from Sidecar"
+        condition: A
+        data:
+          - refId: A
+            relativeTimeRange:
+              from: 600
+              to: 0
+            datasourceUid: prometheus
+            model:
+              expr: "absent(model_health)"
+              interval: ""
+              intervalMs: 15000
+              maxDataPoints: 100
+              refId: A
+              format: "time_series"
+              legendFormat: ""
+              hide: false
+            queryType: ""
+        noDataState: Alerting
+        execErrState: Error
+        for: 1m
+        annotations:
+          summary: "Monitoring sidecar has stopped reporting metrics"
+        labels:
+          severity: critical
