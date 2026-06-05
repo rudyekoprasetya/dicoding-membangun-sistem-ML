@@ -1,0 +1,123 @@
+artifact_path: mlflow-artifacts:/460818847981863308/models/m-e276d848aa2f43ed934a6554c90bee98/artifacts
+flavors:
+  python_function:
+    env:
+      conda: conda.yaml
+      virtualenv: python_env.yaml
+    loader_module: mlflow.sklearn
+    model_path: model.pkl
+    predict_fn: predict
+    python_version: 3.13.5
+  sklearn:
+    code: null
+    pickled_model: model.pkl
+    serialization_format: cloudpickle
+    sklearn_version: 1.8.0
+    skops_trusted_types: null
+is_signature_from_type_hint: false
+mlflow_version: 3.12.0
+model_id: m-e276d848aa2f43ed934a6554c90bee98
+model_size_bytes: 6630
+model_uuid: m-e276d848aa2f43ed934a6554c90bee98
+prompts: null
+run_id: 40416d7c1f0c4e5a8084fba0ae9d739c
+signature:
+  inputs: '[{"type": "long", "name": "land", "required": true}, {"type": "long", "name":
+    "logged_in", "required": true}, {"type": "long", "name": "is_host_login", "required":
+    true}, {"type": "long", "name": "is_guest_login", "required": true}, {"type":
+    "long", "name": "level", "required": true}, {"type": "double", "name": "duration",
+    "required": true}, {"type": "double", "name": "src_bytes", "required": true},
+    {"type": "double", "name": "dst_bytes", "required": true}, {"type": "double",
+    "name": "wrong_fragment", "required": true}, {"type": "double", "name": "urgent",
+    "required": true}, {"type": "double", "name": "hot", "required": true}, {"type":
+    "double", "name": "num_failed_logins", "required": true}, {"type": "double", "name":
+    "num_compromised", "required": true}, {"type": "double", "name": "root_shell",
+    "required": true}, {"type": "double", "name": "su_attempted", "required": true},
+    {"type": "double", "name": "num_root", "required": true}, {"type": "double", "name":
+    "num_file_creations", "required": true}, {"type": "double", "name": "num_shells",
+    "required": true}, {"type": "double", "name": "num_access_files", "required":
+    true}, {"type": "double", "name": "num_outbound_cmds", "required": true}, {"type":
+    "double", "name": "count", "required": true}, {"type": "double", "name": "srv_count",
+    "required": true}, {"type": "double", "name": "serror_rate", "required": true},
+    {"type": "double", "name": "srv_serror_rate", "required": true}, {"type": "double",
+    "name": "rerror_rate", "required": true}, {"type": "double", "name": "srv_rerror_rate",
+    "required": true}, {"type": "double", "name": "same_srv_rate", "required": true},
+    {"type": "double", "name": "diff_srv_rate", "required": true}, {"type": "double",
+    "name": "srv_diff_host_rate", "required": true}, {"type": "double", "name": "dst_host_count",
+    "required": true}, {"type": "double", "name": "dst_host_srv_count", "required":
+    true}, {"type": "double", "name": "dst_host_same_srv_rate", "required": true},
+    {"type": "double", "name": "dst_host_diff_srv_rate", "required": true}, {"type":
+    "double", "name": "dst_host_same_src_port_rate", "required": true}, {"type": "double",
+    "name": "dst_host_srv_diff_host_rate", "required": true}, {"type": "double", "name":
+    "dst_host_serror_rate", "required": true}, {"type": "double", "name": "dst_host_srv_serror_rate",
+    "required": true}, {"type": "double", "name": "dst_host_rerror_rate", "required":
+    true}, {"type": "double", "name": "dst_host_srv_rerror_rate", "required": true},
+    {"type": "boolean", "name": "protocol_type_icmp", "required": true}, {"type":
+    "boolean", "name": "protocol_type_tcp", "required": true}, {"type": "boolean",
+    "name": "protocol_type_udp", "required": true}, {"type": "boolean", "name": "service_IRC",
+    "required": true}, {"type": "boolean", "name": "service_X11", "required": true},
+    {"type": "boolean", "name": "service_Z39_50", "required": true}, {"type": "boolean",
+    "name": "service_aol", "required": true}, {"type": "boolean", "name": "service_auth",
+    "required": true}, {"type": "boolean", "name": "service_bgp", "required": true},
+    {"type": "boolean", "name": "service_courier", "required": true}, {"type": "boolean",
+    "name": "service_csnet_ns", "required": true}, {"type": "boolean", "name": "service_ctf",
+    "required": true}, {"type": "boolean", "name": "service_daytime", "required":
+    true}, {"type": "boolean", "name": "service_discard", "required": true}, {"type":
+    "boolean", "name": "service_domain", "required": true}, {"type": "boolean", "name":
+    "service_domain_u", "required": true}, {"type": "boolean", "name": "service_echo",
+    "required": true}, {"type": "boolean", "name": "service_eco_i", "required": true},
+    {"type": "boolean", "name": "service_ecr_i", "required": true}, {"type": "boolean",
+    "name": "service_efs", "required": true}, {"type": "boolean", "name": "service_exec",
+    "required": true}, {"type": "boolean", "name": "service_finger", "required": true},
+    {"type": "boolean", "name": "service_ftp", "required": true}, {"type": "boolean",
+    "name": "service_ftp_data", "required": true}, {"type": "boolean", "name": "service_gopher",
+    "required": true}, {"type": "boolean", "name": "service_harvest", "required":
+    true}, {"type": "boolean", "name": "service_hostnames", "required": true}, {"type":
+    "boolean", "name": "service_http", "required": true}, {"type": "boolean", "name":
+    "service_http_2784", "required": true}, {"type": "boolean", "name": "service_http_443",
+    "required": true}, {"type": "boolean", "name": "service_http_8001", "required":
+    true}, {"type": "boolean", "name": "service_imap4", "required": true}, {"type":
+    "boolean", "name": "service_iso_tsap", "required": true}, {"type": "boolean",
+    "name": "service_klogin", "required": true}, {"type": "boolean", "name": "service_kshell",
+    "required": true}, {"type": "boolean", "name": "service_ldap", "required": true},
+    {"type": "boolean", "name": "service_link", "required": true}, {"type": "boolean",
+    "name": "service_login", "required": true}, {"type": "boolean", "name": "service_mtp",
+    "required": true}, {"type": "boolean", "name": "service_name", "required": true},
+    {"type": "boolean", "name": "service_netbios_dgm", "required": true}, {"type":
+    "boolean", "name": "service_netbios_ns", "required": true}, {"type": "boolean",
+    "name": "service_netbios_ssn", "required": true}, {"type": "boolean", "name":
+    "service_netstat", "required": true}, {"type": "boolean", "name": "service_nnsp",
+    "required": true}, {"type": "boolean", "name": "service_nntp", "required": true},
+    {"type": "boolean", "name": "service_ntp_u", "required": true}, {"type": "boolean",
+    "name": "service_other", "required": true}, {"type": "boolean", "name": "service_pm_dump",
+    "required": true}, {"type": "boolean", "name": "service_pop_2", "required": true},
+    {"type": "boolean", "name": "service_pop_3", "required": true}, {"type": "boolean",
+    "name": "service_printer", "required": true}, {"type": "boolean", "name": "service_private",
+    "required": true}, {"type": "boolean", "name": "service_red_i", "required": true},
+    {"type": "boolean", "name": "service_remote_job", "required": true}, {"type":
+    "boolean", "name": "service_rje", "required": true}, {"type": "boolean", "name":
+    "service_shell", "required": true}, {"type": "boolean", "name": "service_smtp",
+    "required": true}, {"type": "boolean", "name": "service_sql_net", "required":
+    true}, {"type": "boolean", "name": "service_ssh", "required": true}, {"type":
+    "boolean", "name": "service_sunrpc", "required": true}, {"type": "boolean", "name":
+    "service_supdup", "required": true}, {"type": "boolean", "name": "service_systat",
+    "required": true}, {"type": "boolean", "name": "service_telnet", "required": true},
+    {"type": "boolean", "name": "service_tftp_u", "required": true}, {"type": "boolean",
+    "name": "service_tim_i", "required": true}, {"type": "boolean", "name": "service_time",
+    "required": true}, {"type": "boolean", "name": "service_urh_i", "required": true},
+    {"type": "boolean", "name": "service_urp_i", "required": true}, {"type": "boolean",
+    "name": "service_uucp", "required": true}, {"type": "boolean", "name": "service_uucp_path",
+    "required": true}, {"type": "boolean", "name": "service_vmnet", "required": true},
+    {"type": "boolean", "name": "service_whois", "required": true}, {"type": "boolean",
+    "name": "flag_OTH", "required": true}, {"type": "boolean", "name": "flag_REJ",
+    "required": true}, {"type": "boolean", "name": "flag_RSTO", "required": true},
+    {"type": "boolean", "name": "flag_RSTOS0", "required": true}, {"type": "boolean",
+    "name": "flag_RSTR", "required": true}, {"type": "boolean", "name": "flag_S0",
+    "required": true}, {"type": "boolean", "name": "flag_S1", "required": true}, {"type":
+    "boolean", "name": "flag_S2", "required": true}, {"type": "boolean", "name": "flag_S3",
+    "required": true}, {"type": "boolean", "name": "flag_SF", "required": true}, {"type":
+    "boolean", "name": "flag_SH", "required": true}]'
+  outputs: '[{"type": "tensor", "tensor-spec": {"dtype": "int64", "shape": [-1]}}]'
+  params: null
+type_hint_from_example: false
+utc_time_created: '2026-06-05 14:22:18.655482'

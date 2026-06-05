@@ -122,39 +122,38 @@ with mlflow.start_run(run_name="RandomizedSearch_GNB"):
             mlflow.log_params(params)
             mlflow.log_metric("cv_mean_test_score", mean_score)
 
-# ============================================================
-# FASE 4: Evaluasi best model di test set
-# ============================================================
-print("\nEvaluasi best model di test set...")
+    # ============================================================
+    # Evaluasi best model di test set
+    # ============================================================
+    print("\nEvaluasi best model di test set...")
 
-y_pred = best_gnb.predict(X_test)
-test_acc = accuracy_score(y_test, y_pred)
-print(f"Test accuracy: {test_acc:.6f}")
+    y_pred = best_gnb.predict(X_test)
+    test_acc = accuracy_score(y_test, y_pred)
+    print(f"Test accuracy: {test_acc:.6f}")
 
-cm = confusion_matrix(y_test, y_pred)
-print("\n--- Confusion Matrix ---")
-print(cm)
+    cm = confusion_matrix(y_test, y_pred)
+    print("\n--- Confusion Matrix ---")
+    print(cm)
 
-report = classification_report(y_test, y_pred, target_names=['normal', 'attack'])
-print("\n--- Classification Report ---")
-print(report)
+    report = classification_report(y_test, y_pred, target_names=['normal', 'attack'])
+    print("\n--- Classification Report ---")
+    print(report)
 
-plt.figure(figsize=(6, 5))
-sns.heatmap(cm, annot=True, fmt='d', cmap='Blues',
-            xticklabels=['normal', 'attack'], yticklabels=['normal', 'attack'])
-plt.title('Confusion Matrix - Best GaussianNB')
-plt.ylabel('True Label')
-plt.xlabel('Predicted Label')
-cm_path = os.path.join(script_dir, 'confusion_matrix_tuning.png')
-plt.tight_layout()
-plt.savefig(cm_path)
-plt.close()
+    plt.figure(figsize=(6, 5))
+    sns.heatmap(cm, annot=True, fmt='d', cmap='Blues',
+                xticklabels=['normal', 'attack'], yticklabels=['normal', 'attack'])
+    plt.title('Confusion Matrix - Best GaussianNB')
+    plt.ylabel('True Label')
+    plt.xlabel('Predicted Label')
+    cm_path = os.path.join(script_dir, 'confusion_matrix_tuning.png')
+    plt.tight_layout()
+    plt.savefig(cm_path)
+    plt.close()
 
-model_path = os.path.join(script_dir, 'best_gnb.pkl')
-with open(model_path, 'wb') as f:
-    pickle.dump(best_gnb, f)
+    model_path = os.path.join(script_dir, 'best_gnb.pkl')
+    with open(model_path, 'wb') as f:
+        pickle.dump(best_gnb, f)
 
-with mlflow.start_run(run_name="Best_Model_Evaluation"):
     mlflow.log_params(best_params)
     mlflow.log_metric("test_accuracy", test_acc)
     mlflow.log_metric("best_cv_accuracy", best_cv_score)
